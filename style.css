@@ -77,12 +77,12 @@ body{
     text-align: left;
 }
 .col img{
-    width:80px;
-    margin-right: 15px;
+    width:44px;
+    margin-right: 10px;
 }
 .humidity, .wind{
-    font-size: 25px;
-    margin-top: -10px;
+    font-size: 21px;
+    margin-top: 0px;
 }
 .error{
     font-size: 15px;
