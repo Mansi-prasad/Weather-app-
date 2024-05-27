@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="search">
+        <input type="text" placeholder="Enter city name" />
+        <button>
+          <img
+            src="https://purepng.com/public/uploads/medium/search-icon-sl7.png"
+            alt="search"
+          />
+        </button>
+      </div>
+      <div class="error">
+        <p>Invalid city name</p>
+      </div>
+      <div class="weather">
+        <img
+          src="https://flyclipart.com/thumb2/weather-report-png-235864.png"
+          alt="img1"
+          class="weather-icon"
+        />
+        <h1 class="temp">20°C</h1>
+        <h2 class="city">Banglore</h2>
+        <div class="details">
+          <div class="col">
+            <img
+              src="https://sustainability.uoguelph.ca/wp-content/uploads/2019/12/Group-702@2x.png"
+              alt="humidity"
+              id="humidity-icon"
+            />
+            <div>
+              <p class="humidity">50%</p>
+              <p>Humidity</p>
+            </div>
+          </div>
+          <div class="col">
+            <img
+              src="https://clipground.com/images/wind-clipart-transparent-3.png"
+              alt="wind"
+              id="wind-icon"
+            />
+            <div>
+              <p class="wind">50 km/h</p>
+              <p>Wind speed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const APIkey = "fc42425579a918ef1b326166f7834525";
+      const APIURL =
+        "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+      const search = document.querySelector(".search input");
+      const search_btn = document.querySelector(".search button");
+      const weathericon = document.querySelector(".weather-icon");
+
+      async function checkweather(city) {
+        const response = await fetch(APIURL + city + `&appid=${APIkey}`);
+        if (response.status == 404) {
+          document.querySelector(".error").style.display = "block";
+          document.querySelector(".weather").style.display = "none";
+        } else {
+          let data = await response.json();
+
+          document.querySelector(".city").innerHTML = data.name;
+          document.querySelector(".temp").innerHTML =
+            Math.round(data.main.temp) + "°C";
+          document.querySelector(".humidity").innerHTML =
+            data.main.humidity + " %";
+          document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+
+          if (data.weather[0].main == "Clouds") {
+            weathericon.src =
+              "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/63887/clouds-and-sun-clipart-md.png";
+          } else if (data.weather[0].main == "Clear") {
+            weathericon.src = "https://pngimg.com/d/sun_PNG13441.png";
+          } else if (data.weather[0].main == "Rain") {
+            weathericon.src =
+              "https://download.spinetix.com/content/widgets/icons/weather/10n.png";
+          } else if (data.weather[0].main == "Drizzle") {
+            weathericon.src =
+              "https://static.vecteezy.com/system/resources/previews/008/854/795/original/sunny-and-rainy-cloudy-day-weather-forecast-icon-meteorological-sign-3d-render-png.png";
+          } else if (data.weather[0].main == "Mist") {
+            weathericon.src =
+              "https://cdn-icons-png.flaticon.com/512/3222/3222800.png";
+          }
+          document.querySelector(".weather").style.display = "block";
+          document.querySelector(".error").style.display = "none";
+        }
+      }
+      search_btn.addEventListener("click", () => {
+        checkweather(search.value);
+      });
+    </script>
+  </body>
+</html>
