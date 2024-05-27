@@ -81,7 +81,7 @@ body{
     margin-right: 10px;
 }
 .humidity, .wind{
-    font-size: 21px;
+    font-size: 1rem;
     margin-top: 0px;
 }
 .error{
